@@ -1,12 +1,14 @@
 
+
 import './App.css'
-import ChurchWebsite from './components/church-website-components'
+
+import { AppRoutes } from './routes'
 
 function App() {
 
   return (
     <>
-     <ChurchWebsite />
+      <AppRoutes />
     </>
   )
 }
