@@ -58,7 +58,7 @@ export const HeroSection = () => {
       <>
        
      
-      <div className="relative flex flex-col items-center justify-center text-center min-h-screen p-4 bg-black opacity-50">
+      <div className="relative flex flex-col items-center justify-center text-center min-h-screen p-4 bg-blue-500 opacity-50 ">
       <div className="absolute top-1/2 left-4 transform -translate-y-1/2">
         <button 
           onClick={prevSlide}

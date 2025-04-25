@@ -1,6 +1,6 @@
 // Navigation Component
 export const Navigation = () => {
-    const navItems = ['HOME', 'FEATURES', 'SERMONS', 'EVENTS', 'SHORTCODES', 'POST TYPES'];
+    const navItems = ['Inicio', 'Misiones', 'Videos', 'Blog', 'Libros', 'Comunidad'];
     
     return (
       <nav className="hidden md:flex items-center space-x-8">

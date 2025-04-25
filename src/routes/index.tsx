@@ -11,6 +11,7 @@ import { useAuth } from '../auth/AuthContext';
 import { Layout } from '../Layouts';
 import { Admin } from '../pages/Admin';
 import { HeroSectionGestion } from '../pages/Admin/HeroSectionGestion';
+// import { WelcomeGestion } from '../pages/Admin/WelcomeGestion';
 
 interface AppRouteInterfaz {
     path: string;
@@ -31,11 +32,9 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
 
 export const AppRoutes = () => {
 
-//   const { alertPortal } = useAlert();
   const routes: AppRouteInterfaz[]= [
     {path: '/admin', element: <Admin />},
-    {path: '/herosection', element: <HeroSectionGestion />},
-
+    {path: '/herosectionEdit', element: <HeroSectionGestion />},
   ];
   return (
 
@@ -63,37 +62,6 @@ export const AppRoutes = () => {
           />
         ))}
        
-
-     
-
-        {/* <Route
-          path="/encuestas"
-          element={
-            <ProtectedLayout>
-              <FormManagement />
-            </ProtectedLayout>
-       
-          }
-        /> */}
-
-        {/* Ejemplo de cómo añadir más rutas protegidas */}
-        {/* <Route
-          path="/contracts"
-          element={
-            <ProtectedLayout>
-              <ContractsTable />
-            </ProtectedLayout>
-          }
-        /> */}
-
-        {/* < <Route
-          path="/settings"
-          element={
-            <ProtectedLayout>
-              <SettingsPage />
-            </ProtectedLayout>
-          }
-        /> */}
 
         {/* Ruta de 404 - también sin Layout principal */}
         <Route path="*" element={<Navigate to="/" replace />} />

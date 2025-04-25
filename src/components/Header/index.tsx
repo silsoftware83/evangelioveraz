@@ -40,10 +40,10 @@ export const Header = () => {
       <Logo />
       <Navigation />
       <div className="flex items-center space-x-6">
+        <SocialIcons />
         <Search size={20} className="cursor-pointer" />
         <CartIcon />
-        <SocialIcons />
-        <Button primary>DONATE</Button>
+        <Button primary>Donaciones</Button>
       </div>
     </header>
   );

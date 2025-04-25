@@ -1,47 +1,62 @@
 import { Header } from "./Header";
 import { HeroSection } from "./HeroSection";
-import { ParallaxSection } from "./Paralax";
-import { SermonSection } from "./SectionSermons/SermonSection";
-const sermons = [
-  {
-    image: '/images/sermon1.jpg',
-    title: 'Nothing Else Matters',
-    speaker: 'cmsmasters',
-    categories: ['Faith'],
-    date: 'May 13, 2016',
-  },
-  {
-    image: '/images/sermon2.jpg',
-    title: 'He Does All Things Well',
-    speaker: 'cmsmasters',
-    categories: ['Child', 'God'],
-    date: 'May 13, 2016',
-  },
-  {
-    image: '/images/sermon3.jpg',
-    title: 'The Testing of Our Faith',
-    speaker: 'cmsmasters',
-    categories: ['Church', 'Religion'],
-    date: 'May 13, 2016',
-  },
-];
+import { ComunitySection } from "./ComunitySection/ComunitySection";
+import { WelcomeSection } from "./WelcomeSection/WelcomeSection";
+import { PlaceForYou } from "./PlaceForYouSection/PlaceForYou";
+import { AboutSection } from "./AboutSection/AboutSection";
+import Causas from "./OurCauses";
+import FraseConNewsletter from "./NewsLetterSection/NewsLetterSection";
+// import { ParallaxSection } from "./Paralax";
+// import { SermonSection } from "./SectionSermons/SermonSection";
+// const sermons = [
+//   {
+//     image: '/images/sermon1.jpg',
+//     title: 'Nothing Else Matters',
+//     speaker: 'cmsmasters',
+//     categories: ['Faith'],
+//     date: 'May 13, 2016',
+//   },
+//   {
+//     image: '/images/sermon2.jpg',
+//     title: 'He Does All Things Well',
+//     speaker: 'cmsmasters',
+//     categories: ['Child', 'God'],
+//     date: 'May 13, 2016',
+//   },
+//   {
+//     image: '/images/sermon3.jpg',
+//     title: 'The Testing of Our Faith',
+//     speaker: 'cmsmasters',
+//     categories: ['Church', 'Religion'],
+//     date: 'May 13, 2016',
+//   },
+// ];
 
 export default function ChurchWebsite() {
   return (
     <>
       <div className="relative w-full text-white">
-
         <div className="absolute inset-0 bg-black opacity-50 z-0"></div>
-
-
-        <div className="relative z-10 pt-16">
           <Header />
+        <div className="relative z-10 pt-30">
           <HeroSection />
         </div>
       </div>
+      <div className="min-h-screen flex flex-col">
+        <WelcomeSection />
+        <ComunitySection />
+      </div>
+      <div className="flex flex-col min-h-screen">
+        <PlaceForYou />
+        <AboutSection />
+      </div>
+    <Causas />
+  <FraseConNewsletter />
 
-
-      <div className="w-full">
+    </>
+  );
+}
+    {/* <div className="w-full">
         <SermonSection sermons={sermons} />;
         <ParallaxSection
           backgroundImage='https://th.bing.com/th/id/R.5c4163f6e2473ae43f85989b7e35dc4b?rik=la94%2bz3ZaRczIw&riu=http%3a%2f%2fcdn.wallpapersafari.com%2f69%2f63%2f4t7bLC.jpg&ehk=SJFOT9mmVl2heoZ6WYUDb93JaSwz6GwsueqlVJoT3tU%3d&risl=&pid=ImgRaw&r=0'
@@ -49,7 +64,7 @@ export default function ChurchWebsite() {
           buttonText="BECOME A MEMBER"
         >
           <div className="container mx-auto px-4 py-16">
-            {/* Pastor section */}
+            
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div className="md:w-1/3 mb-8 md:mb-0 flex justify-center">
                 <div className="relative w-64 h-64 rounded-full overflow-hidden">
@@ -86,8 +101,4 @@ export default function ChurchWebsite() {
             </div>
           </div>
         </ParallaxSection>
-      </div>
-
-    </>
-  );
-}
+      </div> */}

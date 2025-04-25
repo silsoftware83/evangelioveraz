@@ -4,6 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  // base: '/evangelioveraz/' habilitar al subir a github ,
+  // base: '/evangelioveraz/',  //habilitar al subir a github ,
   plugins: [react(), tailwindcss(),],
 })
