@@ -8,7 +8,7 @@ export const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login,loading } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,9 +69,10 @@ export const Login = () => {
           
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Iniciar sesión
+           {loading ? 'Cargando...' : 'Iniciar Sesión'}
           </button>
         </form>
       </div>

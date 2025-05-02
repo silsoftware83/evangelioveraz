@@ -11,6 +11,7 @@ import { useAuth } from '../auth/AuthContext';
 import { Layout } from '../Layouts';
 import { Admin } from '../pages/Admin';
 import { HeroSectionGestion } from '../pages/Admin/HeroSectionGestion';
+import RegisterForm from '../pages/RegisterPage';
 // import { WelcomeGestion } from '../pages/Admin/WelcomeGestion';
 
 interface AppRouteInterfaz {
@@ -47,7 +48,7 @@ export const AppRoutes = () => {
         {/* Rutas de autenticación - sin Layout principal */}
        
         <Route path="/login" element={<Login />} />
-         
+        <Route path="/register" element={<RegisterForm />} />
        
 
         {/* Rutas protegidas - con Layout principal */}

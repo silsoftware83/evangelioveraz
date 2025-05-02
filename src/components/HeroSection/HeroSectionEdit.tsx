@@ -1,18 +1,9 @@
 import { useState } from "react";
 import { Button } from "../ui/Button";
 import { Plus, Upload, Palette } from "lucide-react";
+import { HeroSectionProps } from "../../types/HeroSection";
 
-interface HeroSectionProps {
-  title?: string;
-  titleColor?: string;
-  subtitle?: string;
-  subtitleColor?: string;
-  description?: string;
-  descriptionColor?: string;
-  buttonText?: string;
-  buttonTextColor?: string;
-  url?: string;
-}
+
 
 export const HeroSectionEdit = () => {
   const [bannerItems, setBannerItems] = useState<HeroSectionProps[]>([]);
