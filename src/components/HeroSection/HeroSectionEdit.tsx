@@ -4,18 +4,20 @@ import { Plus, Upload, Palette, Trash } from "lucide-react";
 import { HeroSectionProps } from "../../types/HeroSection";
 import { useHeroSections } from "../../hooks/useHeroSections";
 
-import { addDoc, collection, doc, updateDoc, writeBatch } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL,deleteObject } from "firebase/storage";
 import { storage, db } from "../../Firebase/firebaseConfig"; // Asegúrate de tener configurado Firebase Storage y Firestore
 import { deletePostWithImage } from "../../firebaseFunctions";
+import { useToast } from "../../context/Toast";
 
 
 export const HeroSectionEdit = () => {
+  const { showToast } = useToast();
 
   const {heroSections} = useHeroSections();
   const [bannerItems, setBannerItems] = useState<HeroSectionProps[]>([]);
   const [loading, setLoading] = useState(false);
-  const [updatingKey, setUpdatingKey] = useState<Number | null>(null);
+  const [updatingKey, setUpdatingKey] = useState<number | null>(null);
 
   const handleInputChange = (index: number, field: keyof HeroSectionProps, value: string) => {
     const updatedItems = [...bannerItems];
@@ -81,6 +83,7 @@ export const HeroSectionEdit = () => {
         const docRef = doc(db, "HeroSections", item.id);
         await updateDoc(docRef, dataToSave);
         console.log("Documento actualizado:", item.id);
+        showToast("Se ha actualizado la seccion", "success", 3000);
       } else {
         const docRef = await addDoc(collection(db, "HeroSections"), {
           ...dataToSave,
@@ -88,6 +91,7 @@ export const HeroSectionEdit = () => {
         });
         updatedItems[index].id = docRef.id;
         console.log("Documento creado:", docRef.id);
+        showToast("Se ha creado una nueva seccion", "success", 3000);
       }
   
       // Limpiar archivo local y actualizar el estado
@@ -123,12 +127,23 @@ export const HeroSectionEdit = () => {
   
   },[heroSections]);
 
-
+const handleDelete = async (id: string, url: string) => {
+  const confirmPropmt = window.confirm("¿Estás seguro de que deseas eliminar esta sección? Esta acción no se puede deshacer.");
+  if (!confirmPropmt) return; // Si el usuario cancela, no hacer nada
+    const respuesta= await  deletePostWithImage(id, url)
+    if (respuesta) {
+      const updatedItems = bannerItems.filter(item => item.id !== id);
+      setBannerItems(updatedItems);
+      showToast("Se ha eliminado la seccion", "success", 3000);
+    }else{
+      showToast("No se ha podido eliminar la seccion", "error", 3000);
+    }
+}
 
   return (
     <div className="p-2">
       <div className="flex justify-end mb-4">
-        <Button variant="default" className="bg-blue-500" onClick={handleAddItem}><Plus /></Button>
+        <Button variant="default" className="bg-blue-500 flex" onClick={handleAddItem}><Plus /> Nuevo banner</Button>
       </div>
 
       {bannerItems.map((item, index) => (
@@ -284,7 +299,7 @@ export const HeroSectionEdit = () => {
             onClick={() => {
               if (item.url&& item.id) {
                 // Eliminar la imagen de Firebase Storage
-                deletePostWithImage(item.id, item.url);
+                handleDelete(item.id, item.url);
               } else {
                 console.warn("URL is undefined, cannot delete image.");
               }

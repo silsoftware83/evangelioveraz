@@ -12,6 +12,7 @@ import { Layout } from '../Layouts';
 import { Admin } from '../pages/Admin';
 import { HeroSectionGestion } from '../pages/Admin/HeroSectionGestion';
 import RegisterForm from '../pages/RegisterPage';
+import { WelcomeGestion } from '../pages/Admin/WelcomeGestion';
 // import { WelcomeGestion } from '../pages/Admin/WelcomeGestion';
 
 interface AppRouteInterfaz {
@@ -36,6 +37,7 @@ export const AppRoutes = () => {
   const routes: AppRouteInterfaz[]= [
     {path: '/admin', element: <Admin />},
     {path: '/herosectionEdit', element: <HeroSectionGestion />},
+    {path: '/welcomeEdit', element: <WelcomeGestion />},
   ];
   return (
 

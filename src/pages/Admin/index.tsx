@@ -23,7 +23,7 @@ export const Admin = () => {
               <h3 className="font-medium mb-2">Hero section</h3>
               <p className="text-sm text-gray-500">Baner de inicio y titulos</p>
             </Link>
-            <Link to='/bienvenidaEdit' className="border border-gray-200 p-4 rounded">
+            <Link to='/welcomeEdit' className="border border-gray-200 p-4 rounded">
               <h3 className="font-medium mb-2">Seccion de Bienvenida</h3>
               <p className="text-sm text-gray-500">Mensaje de bienvenida</p>
             </Link>
