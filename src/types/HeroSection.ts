@@ -1,4 +1,5 @@
 export interface HeroSectionProps {
+  id?: string;
   title?: string;
   titleColor?: string;
   subtitle?: string;
@@ -8,4 +9,5 @@ export interface HeroSectionProps {
   buttonText?: string;
   buttonTextColor?: string;
   url?: string;
+  file?: File;
 }

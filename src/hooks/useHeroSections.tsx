@@ -12,11 +12,11 @@ export function useHeroSections() {
   useEffect(() => {
     const fetchHeroSections = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "HeroSection"));
+        const querySnapshot = await getDocs(collection(db, "HeroSections"));
         const data: HeroSectionProps[] = querySnapshot.docs.map((doc) => ({
+          id: doc.id, // Añadir el ID del documento
           ...doc.data()
         })) as HeroSectionProps[];
-        
         setHeroSections(data);
       } catch (err: any) {
         setError("Error al obtener datos de HeroSection");
@@ -25,7 +25,6 @@ export function useHeroSections() {
         setLoading(false);
       }
     };
-
     fetchHeroSections();
   }, []);
 

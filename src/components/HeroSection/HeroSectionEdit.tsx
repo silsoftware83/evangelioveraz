@@ -1,12 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/Button";
-import { Plus, Upload, Palette } from "lucide-react";
+import { Plus, Upload, Palette, Trash } from "lucide-react";
 import { HeroSectionProps } from "../../types/HeroSection";
+import { useHeroSections } from "../../hooks/useHeroSections";
 
+import { addDoc, collection, doc, updateDoc, writeBatch } from "firebase/firestore";
+import { ref as storageRef, uploadBytes, getDownloadURL,deleteObject } from "firebase/storage";
+import { storage, db } from "../../Firebase/firebaseConfig"; // Asegúrate de tener configurado Firebase Storage y Firestore
+import { deletePostWithImage } from "../../firebaseFunctions";
 
 
 export const HeroSectionEdit = () => {
+
+  const {heroSections} = useHeroSections();
   const [bannerItems, setBannerItems] = useState<HeroSectionProps[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [updatingKey, setUpdatingKey] = useState<Number | null>(null);
 
   const handleInputChange = (index: number, field: keyof HeroSectionProps, value: string) => {
     const updatedItems = [...bannerItems];
@@ -17,18 +26,79 @@ export const HeroSectionEdit = () => {
   const handleImageUpload = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      // Create a local URL for the selected image
+      // Crea una URL local para vista previa
       const localUrl = URL.createObjectURL(file);
       const updatedItems = [...bannerItems];
-      updatedItems[index] = { ...updatedItems[index], url: localUrl };
+      updatedItems[index] = { ...updatedItems[index], url: localUrl, file }; // se guarda el File
       setBannerItems(updatedItems);
     }
   };
 
-  const handleSave = (index: number) => {
-    // Here you would typically save the data to a server
-    console.log("Saving item:", bannerItems[index]);
-    alert("Changes saved!");
+  const handleSave = async(index: number) => {
+    setUpdatingKey(index);
+    setLoading(true);
+    try {
+      const updatedItems = [...bannerItems];
+      const item = updatedItems[index];
+  
+      let imageUrl = item.url;
+      const previousImageUrl = item.url;
+  
+      // Si se seleccionó un nuevo archivo
+      if (item.file) {
+        // Subir nueva imagen
+        const fileRef = storageRef(storage, `heroSections/${item.id || Date.now()}_${item.file.name}`);
+        await uploadBytes(fileRef, item.file);
+        imageUrl = await getDownloadURL(fileRef);
+  
+        // Borrar la imagen anterior si existe y es diferente
+        if (previousImageUrl && previousImageUrl !== imageUrl) {
+          try {
+            const prevPath = new URL(previousImageUrl).pathname.split("/o/")[1].split("?")[0]; // path en storage
+            const prevRef = storageRef(storage, decodeURIComponent(prevPath));
+            await deleteObject(prevRef);
+            console.log("Imagen anterior eliminada.");
+          } catch (deleteError) {
+            console.warn("No se pudo eliminar la imagen anterior:", deleteError);
+          }
+        }
+      }
+  
+      const dataToSave = {
+        title: item.title || "",
+        titleColor: item.titleColor || "#000000",
+        subtitle: item.subtitle || "",
+        subtitleColor: item.subtitleColor || "#000000",
+        description: item.description || "",
+        descriptionColor: item.descriptionColor || "#000000",
+        buttonText: item.buttonText || "",
+        buttonTextColor: item.buttonTextColor || "#FFFFFF",
+        url: imageUrl,
+        updatedAt: new Date(),
+      };
+  
+      if (item.id) {
+        const docRef = doc(db, "HeroSections", item.id);
+        await updateDoc(docRef, dataToSave);
+        console.log("Documento actualizado:", item.id);
+      } else {
+        const docRef = await addDoc(collection(db, "HeroSections"), {
+          ...dataToSave,
+          createdAt: new Date(),
+        });
+        updatedItems[index].id = docRef.id;
+        console.log("Documento creado:", docRef.id);
+      }
+  
+      // Limpiar archivo local y actualizar el estado
+      updatedItems[index].file = undefined;
+      updatedItems[index].url = imageUrl;
+      setBannerItems(updatedItems);
+    } catch (error) {
+      console.error("Error al guardar item:", error);
+    }
+    setLoading(false)
+    setUpdatingKey(null);
   };
 
   const handleAddItem = () => {
@@ -41,10 +111,19 @@ export const HeroSectionEdit = () => {
       descriptionColor: "#000000",
       buttonText: "",
       buttonTextColor: "#FFFFFF", // Button text typically white
-      url: "https://api.algobook.info/v1/randomimage?category=places",
+      url:''
     };
     setBannerItems([...bannerItems, newItem]);
   }
+
+  useEffect(()=>{
+    if (heroSections.length > 0) {
+      setBannerItems(heroSections)
+    }
+  
+  },[heroSections]);
+
+
 
   return (
     <div className="p-2">
@@ -53,7 +132,8 @@ export const HeroSectionEdit = () => {
       </div>
 
       {bannerItems.map((item, index) => (
-        <div className="flex w-full border-1 mt-3 rounded-lg" key={index}>
+        <div className="shadow-lg border-1 mt-2 rounded-lg" key={index}>
+        <div className="flex w-full  mt-3 rounded-lg" >
           {/* Div that takes 70% of the width */}
           <div className="w-3/5">
             <div className="relative flex flex-col items-center justify-center text-center h-96">
@@ -84,7 +164,7 @@ export const HeroSectionEdit = () => {
 
           {/* Div that takes 30% of the width */}
           <div className="w-2/5 bg-gray-50 p-4">
-            <form className="flex flex-col items-center justify-center h-full">
+            <div className="flex flex-col items-center justify-center h-full">
             <label className="flex items-center mb-2 gap-2 cursor-pointer w-full">
                 <div className="bg-blue-500 text-white rounded p-2 flex items-center">
                   <Upload size={16} className="mr-1" />
@@ -191,11 +271,28 @@ export const HeroSectionEdit = () => {
                 variant="default"
                 className="bg-blue-500 mt-4"
                 onClick={() => handleSave(index)}
+                disabled={loading || updatingKey === index}
               >
-                Guardar Cambios
+                 Guardar Cambios
               </Button>
-            </form>
+            </div>
           </div>
+        </div>
+          <button
+            title="eliminar"
+            className="bg bg-red-500 p-1 rounded m-2 hover:cursor-pointer"
+            onClick={() => {
+              if (item.url&& item.id) {
+                // Eliminar la imagen de Firebase Storage
+                deletePostWithImage(item.id, item.url);
+              } else {
+                console.warn("URL is undefined, cannot delete image.");
+              }
+            }}
+          >
+            <Trash color="white" />
+          </button>
+
         </div>
       ))}
     </div>
