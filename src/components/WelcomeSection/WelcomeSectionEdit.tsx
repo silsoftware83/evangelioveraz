@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormData } from "../../types/Welcomesection";
 import { saveWelcomeSection } from "../../firebaseFunctions";
 import { useToast } from "../../context/Toast";
+import { useWelcomeSection } from "../../hooks/useWelcomeSection";
 
 export const WelcomeSectionEdit = () => {
+    const { welcomeSections } = useWelcomeSection();
+    console.log("TCL: WelcomeSectionEdit -> welcomeSections", welcomeSections)
+   
+   
   const { showToast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     id: "",
@@ -15,7 +20,18 @@ export const WelcomeSectionEdit = () => {
     bottomText: "Continua leyendo...",
   });
 
- 
+ useEffect(()=>{
+  setFormData(prev=>({
+    ...prev,
+    id: welcomeSections.id,
+    headerTitle: welcomeSections.headerTitle,
+    headerSubtitle: welcomeSections.headerSubtitle,
+    leftColumnText: welcomeSections.leftColumnText,
+    rightColumnText: welcomeSections.rightColumnText,
+    bottomText: welcomeSections.bottomText,
+  }))
+  console.log("TCL: WelcomeSectionEdit -> welcomeSections", welcomeSections)
+ }, [welcomeSections]);
 
   interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> {}
 
