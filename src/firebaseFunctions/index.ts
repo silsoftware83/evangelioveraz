@@ -48,7 +48,8 @@ export const saveWelcomeSection = async (formData: FormData) => {
     if (formData.id) {
       await setDoc(doc(db, 'WelcomeSection', formData.id), formData, { merge: true });
     } else {
-      await addDoc(collection(db, 'WelcomeSection'), formData); // esto genera un ID automáticamente
+      const docRef = await addDoc(collection(db, 'WelcomeSection'), formData);
+      await setDoc(doc(db, 'WelcomeSection', docRef.id), { id: docRef.id }, { merge: true });
     }
     return true;
   } catch (error) {

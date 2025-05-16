@@ -27,10 +27,10 @@ export const Admin = () => {
               <h3 className="font-medium mb-2">Seccion de Bienvenida</h3>
               <p className="text-sm text-gray-500">Mensaje de bienvenida</p>
             </Link>
-            <div className="border border-gray-200 p-4 rounded">
-              <h3 className="font-medium mb-2">Estadísticas</h3>
-              <p className="text-sm text-gray-500">Visualiza métricas y datos</p>
-            </div>
+            <Link to='/PlaceForYouEdit' className="border border-gray-200 p-4 rounded">
+              <h3 className="font-medium mb-2">Seccion de un lugar para ti</h3>
+              <p className="text-sm text-gray-500">Realizar cambios en la seccion.</p>
+            </Link>
           </div>
       </div>
       

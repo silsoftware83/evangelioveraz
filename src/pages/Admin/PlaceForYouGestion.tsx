@@ -2,9 +2,9 @@
 import { Button } from '../../components/ui/Button'
 import { Reply } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { WelcomeSectionEdit } from '../../components/WelcomeSection/WelcomeSectionEdit'
+import PlaceForYouEdit from '../../components/PlaceForYouSection/PlaceForYouEdit'
 
-export const WelcomeGestion = () => {
+export const PlaceForYouGestion = () => {
   return (
     <div>
       <Button className="ml-2 bg-red-500" >
@@ -13,7 +13,7 @@ export const WelcomeGestion = () => {
         </Link>
       </Button>
       <div className="bg-white p-6 rounded-lg shadow-md mt-2">
-        <WelcomeSectionEdit />
+        <PlaceForYouEdit />
       </div>
     </div>
   )

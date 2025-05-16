@@ -50,7 +50,7 @@ export const HeroSection = () => {
       
       heroSections.length > 0 &&
       (
-        <div  className="relative flex flex-col items-center justify-center text-center min-h-screen p-4"  style={{ backgroundImage: `url(${currentBanner.url})`, backgroundSize: 'cover',backgroundPosition: 'center',    backgroundRepeat: 'no-repeat',  }}>
+        <div  className="relative flex flex-col items-center justify-center text-center h-[800px] p-4"  style={{ backgroundImage: `url(${currentBanner.url})`, backgroundSize: 'cover',backgroundPosition: 'center',    backgroundRepeat: 'no-repeat',  }}>
           {/* Overlay opcional para oscurecer un poco el fondo */}
           <div className="absolute inset-0 bg-blue-500 opacity-50 z-0"></div>
       
