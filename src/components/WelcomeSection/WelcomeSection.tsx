@@ -1,7 +1,5 @@
 import { useWelcomeSection } from "../../hooks/useWelcomeSection";
 
-
-
 export const WelcomeSection = () => {
   const { welcomeSections } = useWelcomeSection();
 
