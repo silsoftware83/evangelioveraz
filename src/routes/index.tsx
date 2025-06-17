@@ -13,8 +13,8 @@ import { Admin } from '../pages/Admin';
 import { HeroSectionGestion } from '../pages/Admin/HeroSectionGestion';
 import RegisterForm from '../pages/RegisterPage';
 import { WelcomeGestion } from '../pages/Admin/WelcomeGestion';
-import PlaceForYouEdit from '../components/PlaceForYouSection/PlaceForYouEdit';
 import { PlaceForYouGestion } from '../pages/Admin/PlaceForYouGestion';
+import AboutTeacher from '../pages/Admin/AboutTeacher';
 // import { WelcomeGestion } from '../pages/Admin/WelcomeGestion';
 
 interface AppRouteInterfaz {
@@ -40,7 +40,8 @@ export const AppRoutes = () => {
     {path: '/admin', element: <Admin />},
     {path: '/herosectionEdit', element: <HeroSectionGestion />},
     {path: '/welcomeEdit', element: <WelcomeGestion />},
-    {path:'/PlaceForYouEdit', element: <PlaceForYouGestion />}
+    {path:'/PlaceForYouEdit', element: <PlaceForYouGestion />},
+    {path:'/AboutTeacher', element: <AboutTeacher />},
   ];
   return (
 

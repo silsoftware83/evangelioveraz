@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db, storage } from "../../Firebase/firebaseConfig";
 
 export default function PlaceForYouEdit() {
   const [formData, setFormData] = useState({
@@ -28,14 +31,59 @@ export default function PlaceForYouEdit() {
       reader.readAsDataURL(file);
     }
   };
-  const handleSave =()=>{
-    //guardar el contenido en firebase, almacenando la imagen en storage y recuperando la url y almacenandola en la coleccion PlaceForYouEdit
-    try {
-      
-    } catch (error) {
-      
+  const handleSave = async () => {
+  try {
+    let imageUrl = imagenPreview;
+
+    if (imagenPreview?.startsWith("data:")) {
+      const blob = await (await fetch(imagenPreview)).blob();
+      const imageRef = ref(storage, `heroSections/${Date.now()}.jpg`);
+      const snapshot = await uploadBytes(imageRef, blob);
+      imageUrl = await getDownloadURL(snapshot.ref);
     }
+
+    await setDoc(doc(db, "PlaceForYouEdit", "contenido"), {
+      ...formData,
+      imagen: imageUrl || "",
+      actualizadoEn: new Date()
+    });
+
+    alert("Contenido actualizado correctamente.");
+  } catch (error) {
+    console.error("Error al guardar:", error);
+    alert("Hubo un error al actualizar los datos.");
   }
+};
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const docRef = doc(db, "PlaceForYouEdit", "contenido");
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setFormData({
+          titulo: data.titulo || "",
+          subtitulo: data.subtitulo || "",
+          textoBoton: data.textoBoton || "",
+          mensaje: data.mensaje || "",
+        });
+        if (data.imagen) {
+          setImagenPreview(data.imagen);
+        }
+      }
+    } catch (error) {
+      console.error("Error al cargar datos:", error);
+    }
+  };
+
+  fetchData();
+}, []);
+
+
+
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       {/* Sección del formulario */}

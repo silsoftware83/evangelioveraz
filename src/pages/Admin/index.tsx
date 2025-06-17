@@ -31,6 +31,10 @@ export const Admin = () => {
               <h3 className="font-medium mb-2">Seccion de un lugar para ti</h3>
               <p className="text-sm text-gray-500">Realizar cambios en la seccion.</p>
             </Link>
+            <Link to='/AboutTeacher' className="border border-gray-200 p-4 rounded">
+              <h3 className="font-medium mb-2">Seccion de informacion del maestro</h3>
+              <p className="text-sm text-gray-500">Breve biografia del maestro.</p>
+            </Link>
           </div>
       </div>
       
