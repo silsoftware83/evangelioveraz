@@ -1,22 +1,38 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { Instagram, Facebook, Youtube, Camera, Save, X } from 'lucide-react';
+
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { ref, uploadString, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../../Firebase/firebaseConfig';
 
 export default function AboutTeacher() {
   const [formData, setFormData] = useState({
-    name: 'Carlos Ochoa',
-    title: 'Maestro',
-    description: 'Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent',
-    profileImage: null as string | null
+    name: '',
+    title: '',
+    description: '',
+    profileImage: null as string | null,
   });
 
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const docRef = doc(db, 'aboutteacher', 'profile');
+
+  // Cargar datos al inicio
+  useEffect(() => {
+    const fetchData = async () => {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setFormData(docSnap.data() as typeof formData);
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,29 +42,48 @@ export default function AboutTeacher() {
       reader.onload = (e) => {
         setFormData(prev => ({
           ...prev,
-          profileImage: e.target?.result as string
+          profileImage: e.target?.result as string,
         }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSave = () => {
-    // Aquí iría la lógica para guardar los datos
-    console.log('Guardando datos:', formData);
-    setIsEditing(false);
+  const handleSave = async () => {
+    try {
+      setIsEditing(false);
+      let imageUrl = formData.profileImage;
+
+      // Subir imagen si es base64
+      if (imageUrl && imageUrl.startsWith('data:image/')) {
+        const imageRef = ref(storage, `aboutteacher/profile.jpg`);
+        await uploadString(imageRef, imageUrl, 'data_url');
+        imageUrl = await getDownloadURL(imageRef);
+      }
+
+      const dataToSave = {
+        ...formData,
+        profileImage: imageUrl || null,
+      };
+
+      await setDoc(docRef, dataToSave);
+    } catch (error) {
+      console.error('Error al guardar:', error);
+    }
   };
 
   const handleCancel = () => {
-    // Resetear a los valores originales
-    setFormData({
-      name: 'Carlos Ochoa',
-      title: 'Maestro',
-      description: 'Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent',
-      profileImage: null
-    });
     setIsEditing(false);
+    // Recargar desde Firestore
+    getDoc(docRef).then(docSnap => {
+      if (docSnap.exists()) {
+        setFormData(docSnap.data() as typeof formData);
+      }
+    });
   };
+
+  if (loading) return <p className="p-6 text-gray-500">Cargando datos...</p>;
+
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
