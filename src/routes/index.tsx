@@ -15,6 +15,7 @@ import RegisterForm from '../pages/RegisterPage';
 import { WelcomeGestion } from '../pages/Admin/WelcomeGestion';
 import { PlaceForYouGestion } from '../pages/Admin/PlaceForYouGestion';
 import AboutTeacher from '../pages/Admin/AboutTeacher';
+import CausaEditor from '../pages/Admin/OurMision';
 // import { WelcomeGestion } from '../pages/Admin/WelcomeGestion';
 
 interface AppRouteInterfaz {
@@ -42,6 +43,7 @@ export const AppRoutes = () => {
     {path: '/welcomeEdit', element: <WelcomeGestion />},
     {path:'/PlaceForYouEdit', element: <PlaceForYouGestion />},
     {path:'/AboutTeacher', element: <AboutTeacher />},
+    {path:'/CausaEditor', element: <CausaEditor />},
   ];
   return (
 

@@ -35,6 +35,10 @@ export const Admin = () => {
               <h3 className="font-medium mb-2">Seccion de informacion del maestro</h3>
               <p className="text-sm text-gray-500">Breve biografia del maestro.</p>
             </Link>
+            <Link to='/CausaEditor' className="border border-gray-200 p-4 rounded">
+              <h3 className="font-medium mb-2">Seccion de nuestras causas</h3>
+              <p className="text-sm text-gray-500">Breve descripcion de nuestras causas.</p>
+            </Link>
           </div>
       </div>
       

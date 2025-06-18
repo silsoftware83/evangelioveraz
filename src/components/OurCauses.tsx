@@ -7,18 +7,21 @@ const Causas = () => {
       categoria: 'En Dios, esperanza',
       titulo: 'Ayudando a las personas que lo necesitan',
       descripcion: 'Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna',
+      url:'https://www.youtube.com/watch?v=example1', // Reemplaza con la URL del video
     },
     {
       imagen: 'https://via.placeholder.com/150', // Reemplaza con la imagen correcta
       categoria: 'En la Iglesia, Dios, Niños',
       titulo: 'Enseñemos a los Niños a Amar a Dios',
       descripcion: 'Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna',
+      url:'https://www.youtube.com/watch?v=example1', // Reemplaza con la URL del video
     },
     {
       imagen: 'https://via.placeholder.com/150', // Reemplaza con la imagen correcta
       categoria: 'En la Iglesia, Dios, Niños',
       titulo: '¿Qué tan importante es la fe?',
       descripcion: 'Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna',
+      url:'https://www.youtube.com/watch?v=example1', // Reemplaza con la URL del video
     },
   ];
 
@@ -41,7 +44,7 @@ const Causas = () => {
             <p className="italic text-gray-600">{causa.categoria}</p>
             <h3 className="font-bold text-gray-800 mt-4">{causa.titulo}</h3>
             <p className="text-gray-500 text-sm mt-4">{causa.descripcion}</p>
-            <p className="italic text-gray-600 mt-4">Ver video</p>
+            <p className="italic text-gray-600 mt-4">Ver video</p> 
           </div>
         ))}
       </div>

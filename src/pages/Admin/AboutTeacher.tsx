@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { Instagram, Facebook, Youtube, Camera, Save, X } from 'lucide-react';
+import { Instagram, Facebook, Youtube, Camera, Save,  Reply } from 'lucide-react';
 
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../Firebase/firebaseConfig';
+import { Button } from '../../components/ui/Button';
+import { Link } from 'react-router-dom';
 
 export default function AboutTeacher() {
   const [formData, setFormData] = useState({
@@ -72,58 +74,37 @@ export default function AboutTeacher() {
     }
   };
 
-  const handleCancel = () => {
-    setIsEditing(false);
-    // Recargar desde Firestore
-    getDoc(docRef).then(docSnap => {
-      if (docSnap.exists()) {
-        setFormData(docSnap.data() as typeof formData);
-      }
-    });
-  };
+
 
   if (loading) return <p className="p-6 text-gray-500">Cargando datos...</p>;
 
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Editor de Perfil</h1>
-          <p className="text-gray-600">Edita tu información personal y ve el preview en tiempo real</p>
-        </div>
+    <div className="min-h-screen ">
+       <Button className="ml-2 bg-red-500 mb-2" >
+        <Link to={'/admin'} className='flex items-center text-white'>
+          <Reply />Volver
+        </Link>
+      </Button>
+      <div className="max-w-7xl mx-auto bg-white p-4">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Formulario */}
           <div className="bg-white rounded-xl shadow-lg p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-gray-900">Información del Perfil</h2>
-              {!isEditing ? (
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-                >
-                  <Camera size={16} />
-                  Editar
-                </button>
-              ) : (
+             
                 <div className="flex gap-2">
                   <button
                     onClick={handleSave}
-                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:cursor-pointer transition-colors flex items-center gap-2"
                   >
                     <Save size={16} />
-                    Guardar
+                    Guardar cambios
                   </button>
-                  <button
-                    onClick={handleCancel}
-                    className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
-                  >
-                    <X size={16} />
-                    Cancelar
-                  </button>
+                
                 </div>
-              )}
+            
             </div>
 
             <div className="space-y-6">
