@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState, useCallback } from 'react';
-import { Plus, Trash2, Save } from 'lucide-react';
+import { Plus, Trash2, Save, Reply } from 'lucide-react';
 import {
   doc,
   setDoc,
   getDoc
 } from 'firebase/firestore';
 import { db } from '../../Firebase/firebaseConfig';
+import { Button } from '../../components/ui/Button';
+import { Link } from 'react-router-dom';
 
 type Item = {
   id: number;
@@ -93,6 +95,11 @@ const CausaEditor = () => {
     <div className="min-h-screen bg-gray-100">
       <div className="max-w-7xl mx-auto px-4">
         <div className="">
+          <Button className="ml-2 bg-red-500" >
+            <Link to={'/admin'} className='flex items-center text-white'>
+              <Reply />Volver
+            </Link>
+          </Button>
           <div className="overflow-y-auto">
             <div className="bg-white rounded-lg shadow-lg h-full">
               <div className="border-b border-gray-200 p-4 flex justify-between items-center">

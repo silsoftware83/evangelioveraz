@@ -19,6 +19,10 @@ export const Admin = () => {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+            <Link to='/register' className="border border-gray-200 p-4 rounded">
+              <h3 className="font-medium mb-2">Registro de usuarios</h3>
+              <p className="text-sm text-gray-500">Dar de alta nuevos usuarios.</p>
+            </Link>
             <Link to={'/herosectionEdit'} className="border border-gray-200 p-4 rounded">
               <h3 className="font-medium mb-2">Hero section</h3>
               <p className="text-sm text-gray-500">Baner de inicio y titulos</p>
@@ -43,6 +47,7 @@ export const Admin = () => {
               <h3 className="font-medium mb-2">Seccion de nuestras citas</h3>
               <p className="text-sm text-gray-500">Breve descripcion de nuestras citas.</p>
             </Link>
+            
           </div>
       </div>
       

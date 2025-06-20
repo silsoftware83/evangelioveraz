@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, storage } from '../../Firebase/firebaseConfig';
+import { Button } from '../../components/ui/Button';
+import { Link } from 'react-router-dom';
+import { Reply } from 'lucide-react';
 
 const QuoteEditor = () => {
   const DOC_ID = 'aboutQuote'; // ID fijo, aunque sea la primera vez
@@ -88,7 +91,11 @@ const QuoteEditor = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 flex flex-col md:flex-row gap-6">
-      {/* Editor */}
+      <Button className="ml-2 bg-red-500" >
+        <Link to={'/admin'} className='flex items-center text-white'>
+          <Reply />Volver
+        </Link>
+      </Button>
       <div className="w-full md:w-1/2 bg-white shadow rounded p-6">
         <h2 className="text-xl font-semibold mb-4">Editar Cita</h2>
 
