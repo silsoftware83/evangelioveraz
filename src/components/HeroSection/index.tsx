@@ -3,14 +3,6 @@ import { useState } from "react";
 import { Button } from "../Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useHeroSections } from "../../hooks/useHeroSections";
-// import { HeroSectionProps } from "../../types/HeroSection";
-
-// interface HeroSectionProps {
-//   title?: string;
-//   subtitle?: string;
-//   description?: string;
-//   buttonText?: string;
-// }
 export const HeroSection = () => {
     const {heroSections} = useHeroSections();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,20 +21,7 @@ export const HeroSection = () => {
     );
   };
 
-//   useEffect(() => {
-//     if (heroSections.length > 0) {
-//       getData(heroSections)
-      
-//     }
-//   },[heroSections]);
 
-
-// const getData = async (heroSections: HeroSectionProps[]) => {
-//   if (heroSections) {
-   
-//     setBannerItems(heroSections);
-//   }
-// };
 
   const currentBanner = heroSections[currentIndex];
 
