@@ -28,7 +28,7 @@ export function useWelcomeSection() {
             id: doc.id,
             ...data,
           } as FormData;
-          console.log("TCL: fetchWelcomeSections -> welcomeSectionsData", welcomeSectionsData)
+         
           setWelcomeSections(welcomeSectionsData);
         } else {
           setError("No se encontró ningún documento en welcomeSection");

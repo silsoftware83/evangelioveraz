@@ -1,7 +1,13 @@
 import { Facebook, Instagram, Youtube } from 'lucide-react'
+import { useAboutTeacher } from '../../hooks/useAboutTeacher';
 
 
 export const AboutSection = () => {
+  const { data, loading, error } = useAboutTeacher();
+  console.log("TCL: AboutSection -> data", data);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!data) return <div>No content available</div>;
   return (
     <div className="bg-gray-800 text-white py-16">
     <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
@@ -9,7 +15,7 @@ export const AboutSection = () => {
       <div className="md:w-1/4 flex justify-center mb-8 md:mb-0">
         <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-gray-700">
           <img 
-            src="/api/placeholder/200/200" 
+            src={data.profileImage || "https://via.placeholder.com/150"} 
             alt="Carlos Ochoa" 
             className="w-full h-full object-cover"
           />
@@ -20,14 +26,10 @@ export const AboutSection = () => {
       <div className="md:w-3/4 md:pl-12">
         <div className="flex justify-between items-start">
           <div>
-            <h2 className="text-3xl font-bold mb-1">Carlos Ochoa</h2>
-            <p className="text-gray-400 mb-6">Maestro</p>
+            <h2 className="text-3xl font-bold mb-1">{data.name}</h2>
+            <p className="text-gray-400 mb-6">{data.title}</p>
             <p className="text-gray-400 leading-relaxed">
-              Lorem ipsum Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-              tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-              ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in
-              hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et
-              accumsan et iusto odio dignissim qui blandit praesent
+              {data.description || "Carlos Ochoa es un apasionado líder espiritual con más de 20 años de experiencia en el ministerio. Su dedicación a la enseñanza y su amor por la comunidad lo han convertido en una figura clave en nuestra iglesia."}
             </p>
           </div>
           
